@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const Location = sequelize.define("Location", {
-        id: {
+        location_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,

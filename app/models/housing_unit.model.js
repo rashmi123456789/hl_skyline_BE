@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const Housing_unit = sequelize.define("Housing_unit", {
-        id: {
+        housing_unit_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,

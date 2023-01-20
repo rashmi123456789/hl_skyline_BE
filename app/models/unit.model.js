@@ -1,20 +1,20 @@
 module.exports = (sequelize, Sequelize) => {
-    const Faq = sequelize.define("Faq", {
-        faq_id: {
+    const Unit = sequelize.define("Unit", {
+        unit_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,
       },
-      project_id: {
+      zone_id: {
         type: Sequelize.INTEGER
       },
-      question: {
+      type: {
         type: Sequelize.STRING
       },
-      answer: {
-        type: Sequelize.STRING
+      number_of_units: {
+        type: Sequelize.INTEGER
       }
     });
   
-    return Faq;
+    return Unit;
   };

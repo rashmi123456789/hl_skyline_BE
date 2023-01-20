@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const Project = sequelize.define("Project", {
-        id: {
+        project_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,
@@ -11,60 +11,178 @@ module.exports = (sequelize, Sequelize) => {
       matter_port: {
         type: Sequelize.STRING
       },
-      ameneties_details_image: {
+      type: {
         type: Sequelize.STRING
       },
-      ameneties_details_image_alt: {
+      name: {
         type: Sequelize.STRING
       },
-      ameneties_details_description: {
+      slider_1_img: {
         type: Sequelize.STRING
       },
-      ameneties_image_1: {
+      slider_1_atl: {
         type: Sequelize.STRING
       },
-      ameneties_image_1_alt: {
+      slider_2_img: {
         type: Sequelize.STRING
       },
-      ameneties_image_1_title: {
+      slider_2_atl: {
         type: Sequelize.STRING
       },
-      ameneties_image_1_description: {
+      slider_3_img: {
         type: Sequelize.STRING
       },
-      ameneties_image_2: {
+      slider_3_atl: {
         type: Sequelize.STRING
       },
-      ameneties_image_2_alt: {
+      slider_4_img: {
         type: Sequelize.STRING
       },
-      ameneties_image_2_title: {
+      slider_4_atl: {
         type: Sequelize.STRING
       },
-      ameneties_image_2_description: {
+      facility_label: {
         type: Sequelize.STRING
       },
-      ameneties_image_horizontal: {
+      facility_title: {
         type: Sequelize.STRING
       },
-      ameneties_image_horizontal_alt: {
+      facility_description: {
         type: Sequelize.STRING
       },
-      ameneties_image_horizontal_title: {
+      facility_1: {
         type: Sequelize.STRING
       },
-      ameneties_image_vertical: {
+      icon_1: {
         type: Sequelize.STRING
       },
-      ameneties_image_vertical_alt: {
+      facility_2: {
         type: Sequelize.STRING
       },
-      ameneties_image_vertical_title: {
+      icon_2: {
         type: Sequelize.STRING
       },
-      ameneties_short_description: {
+      facility_3: {
+        type: Sequelize.STRING
+      },
+      icon_3: {
+        type: Sequelize.STRING
+      },
+      facility_4: {
+        type: Sequelize.STRING
+      },
+      icon_4: {
+        type: Sequelize.STRING
+      },
+      facility_5: {
+        type: Sequelize.STRING
+      },
+      icon_5: {
+        type: Sequelize.STRING
+      },
+      facility_6: {
+        type: Sequelize.STRING
+      },
+      icon_6: {
+        type: Sequelize.STRING
+      },
+      project_details_label: {
+        type: Sequelize.STRING
+      },
+      project_details_title: {
+        type: Sequelize.STRING
+      },
+      project_details_location: {
+        type: Sequelize.STRING
+      },
+      project_details_number_of_bedrooms: {
+        type: Sequelize.INTEGER
+      },
+      project_details_number_of_floors: {
+        type: Sequelize.INTEGER
+      },
+      project_details_property_type: {
+        type: Sequelize.STRING
+      },
+      project_details_number_of_units: {
+        type: Sequelize.INTEGER
+      },
+      project_details_car_park_spaces: {
+        type: Sequelize.STRING
+      },
+      project_details_architect: {
+        type: Sequelize.STRING
+      },
+      project_details_developer: {
+        type: Sequelize.STRING
+      },
+      video_url: {
+        type: Sequelize.STRING
+      },
+      design_label: {
+        type: Sequelize.STRING
+      },
+      design_title: {
+        type: Sequelize.STRING
+      },
+      design_description_1: {
+        type: Sequelize.STRING
+      },
+      design_image_1: {
+        type: Sequelize.STRING
+      },
+      design_image_1_alt: {
+        type: Sequelize.STRING
+      },
+      design_image_1_title: {
+        type: Sequelize.STRING
+      },
+      design_description_2: {
+        type: Sequelize.STRING
+      },
+      design_image_2: {
+        type: Sequelize.STRING
+      },
+      design_image_2_alt: {
+        type: Sequelize.STRING
+      },
+      design_image_2_title: {
+        type: Sequelize.STRING
+      },
+      design_image_horizontal: {
+        type: Sequelize.STRING
+      },
+      design_image_horizontal_alt: {
+        type: Sequelize.STRING
+      },
+      design_image_horizontal_title: {
+        type: Sequelize.STRING
+      },
+      project_plan_label: {
+        type: Sequelize.STRING
+      },
+      project_plan_title: {
+        type: Sequelize.STRING
+      },
+      project_plan_description: {
+        type: Sequelize.STRING
+      },
+      project_plan_image: {
+        type: Sequelize.STRING
+      },
+      project_plan_alt: {
+        type: Sequelize.STRING
+      },
+      faq_label: {
+        type: Sequelize.STRING
+      },
+      faq_title: {
+        type: Sequelize.STRING
+      },
+      faq_description: {
         type: Sequelize.STRING
       }
+
     });
   
     return Project;
