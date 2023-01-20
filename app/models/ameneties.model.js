@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
-    const Amenties = sequelize.define("Amenties", {
-      amenties_id: {
+    const Ameneties = sequelize.define("Ameneties", {
+      ameneties_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,
@@ -68,7 +68,13 @@ module.exports = (sequelize, Sequelize) => {
       ameneties_short_description: {
         type: Sequelize.STRING
       }
+    },
+    {
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
     });
   
-    return Amenties;
+    return Ameneties;
   };

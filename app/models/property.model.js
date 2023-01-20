@@ -83,6 +83,11 @@ module.exports = (sequelize, Sequelize) => {
       property_spec_slider_image_4_alt: {
         type: Sequelize.STRING
       }
+    },{
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
     });
   
     return Property;

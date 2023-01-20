@@ -44,6 +44,12 @@ module.exports = (sequelize, Sequelize) => {
       location_amenity_4_details: {
         type: Sequelize.STRING
       }
+    },
+    {
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
     });
   
     return Location;

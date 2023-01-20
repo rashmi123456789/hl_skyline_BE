@@ -17,6 +17,12 @@ module.exports = (sequelize, Sequelize) => {
       description: {
         type: Sequelize.STRING
       }
+    },
+    {
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
     });
   
     return Job;

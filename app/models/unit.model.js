@@ -14,6 +14,11 @@ module.exports = (sequelize, Sequelize) => {
       number_of_units: {
         type: Sequelize.INTEGER
       }
+    },{
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
     });
   
     return Unit;

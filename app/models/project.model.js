@@ -183,6 +183,11 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING
       }
 
+    },{
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
     });
   
     return Project;

@@ -47,6 +47,12 @@ module.exports = (sequelize, Sequelize) => {
       architecture_image_horizontal_title: {
         type: Sequelize.STRING
       }
+    },
+    {
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
     });
   
     return Architecture;

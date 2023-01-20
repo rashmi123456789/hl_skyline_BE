@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
-    const Zone = sequelize.define("Zone", {
-        zone_id: {
+    const zone = sequelize.define("Zone", {
+      zone_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,
@@ -11,7 +11,15 @@ module.exports = (sequelize, Sequelize) => {
       name: {
         type: Sequelize.STRING
       }
-    });
+    }
+    ,
+    {
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
+    }
+    );
   
-    return Zone;
+    return zone;
   };

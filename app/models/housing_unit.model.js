@@ -8,6 +8,12 @@ module.exports = (sequelize, Sequelize) => {
       project_id: {
         type: Sequelize.INTEGER
       }
+    },
+    {
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
     });
   
     return Housing_unit;

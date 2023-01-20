@@ -5,7 +5,7 @@ exports.create = function (req, res, next) {
     
       // Create a amnties
       const apartment_unit = {
-        apartment_unit_id:req.body.id,
+        apartment_unit_id:req.body.apartment_unit_id,
         project_id:req.body.project_id,
       };
     

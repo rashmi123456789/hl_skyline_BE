@@ -25,7 +25,7 @@ exports.create = function (req, res, next) {
 
 // Retrieve all housing_unit from the database.
 exports.findAll = function (request, res, next) {
-    db.housing_unit.findAll({attributes: ['housing_unit','project_id']})
+    db.housing_unit.findAll({attributes: ['housing_unit_id','project_id']})
     .then(data => {
                 res.send(data);
               })

@@ -11,6 +11,11 @@ module.exports = (sequelize, Sequelize) => {
       name: {
         type: Sequelize.STRING
       }
+    },{
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
     });
   
     return Tower;
