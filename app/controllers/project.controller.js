@@ -268,3 +268,35 @@ exports.getAllProjectDetails = async function (req, res, next) {
   result.faq_details = await getFAQDetails(name);
   res.send(result);
 };
+
+exports.getProjectAllLocations = function (req, res, next) {
+  db.sequelize.query(`select distinct(project_details_location) from project`,
+  {type: db.sequelize.QueryTypes.SELECT}
+  ).then(function(locations) {
+    let location_list = [];
+    locations.forEach(location => {
+      location_list.push(location.project_details_location);
+    });
+    res.send(location_list)
+  });
+};
+
+exports.getProjectPriceRanges = function (req, res, next) {
+  db.sequelize.query(`select min(price) as min_price, max(price) as max_price from project_unit;`,
+  {type: db.sequelize.QueryTypes.SELECT}
+  ).then(function(prices) {
+    let price_list = [];
+    const min_price = prices[0].min_price; 
+    const max_price = prices[0].max_price;
+
+    const price_gap = max_price - min_price;
+    const price_increment = Math.round(price_gap/10)
+
+    for (let i = 0; i < 10; i++) {
+      price_list.push(min_price + (price_increment * i));
+    }
+
+    res.send(price_list);
+  });
+};
+
