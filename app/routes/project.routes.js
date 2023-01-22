@@ -18,6 +18,8 @@ module.exports = app => {
     
       // Delete a project with id
       router.delete("/:id" ,project.delete);
+
+      router.get("/get-project-details/:name", project.getAllProjectDetails)
     
       app.use('/api/project', router);
     };
