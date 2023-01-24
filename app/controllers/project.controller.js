@@ -64,7 +64,8 @@ exports.create = function (req, res, next) {
         project_plan_alt: req.body.project_plan_alt,
         faq_label: req.body.faq_label,
         faq_title: req.body.faq_title,
-        faq_description:req.body.faq_description
+        faq_description:req.body.faq_description,
+        status: req.body.status
       };
     
       // Save project in the database
@@ -144,7 +145,8 @@ exports.findAll = function (request, res, next) {
             'project_plan_alt', 
             'faq_label',
             'faq_title' ,
-            'faq_description'
+            'faq_description',
+            'status'
         ]})
     .then(data => {
                 res.send(data);
@@ -300,3 +302,13 @@ exports.getProjectPriceRanges = function (req, res, next) {
   });
 };
 
+
+exports.updateStatus = function (req, res, next) {
+  const name = req.params.name;
+  const p_status = req.params.status;
+  db.sequelize.query(`update project set status= :project_status where name = :project_name`,
+  { replacements: {project_status:p_status, project_name: name},type: db.sequelize.QueryTypes.UPDATE}
+).then(function(updatedProjectData) {
+  res.send("Project "+ name + " updated successfully.");
+});
+};
