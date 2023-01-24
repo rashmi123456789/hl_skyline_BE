@@ -20,7 +20,7 @@ exports.create = function (req, res, next) {
       };
     
       // Save tower in the database
-      db.project_unit.create(tower)
+      db.project_unit.create(project_unit)
         .then(data => {
           res.send(data);
         })

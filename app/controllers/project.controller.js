@@ -79,7 +79,6 @@ exports.create = function (req, res, next) {
               err.message || "Some error occurred while creating project."
           });
         });
-  
 };
 
 // Retrieve all project from the database.
@@ -240,7 +239,7 @@ return res;
 
 const getUnitDetails = function (name) {
   
-  const res = db.sequelize.query(`select * from hl_skyline.project_unit 
+  const res = db.sequelize.query(`select project_unit.* from hl_skyline.project_unit 
   inner join project on project.project_id = project_unit.project_id
   where project.name=:project_name`,
   { replacements: {project_name: name},type: db.sequelize.QueryTypes.SELECT}
@@ -251,7 +250,7 @@ return res;
 };
 
 const getFAQDetails = function (name) {
-  const res = db.sequelize.query(`select * from hl_skyline.faq
+  const res = db.sequelize.query(`select faq.* from hl_skyline.faq
   inner join project on project.project_id = faq.project_id
   where project.name=:project_name`,
   { replacements: {project_name: name},type: db.sequelize.QueryTypes.SELECT}

@@ -32,6 +32,7 @@ require("./app/routes/seo.routes")(app);
 require("./app/routes/tower.routes")(app);
 require("./app/routes/unit.routes")(app);
 require("./app/routes/zone.routes")(app);
+require("./app/routes/all_resources.routes")(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
