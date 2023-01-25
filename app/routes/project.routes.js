@@ -26,6 +26,10 @@ module.exports = app => {
       router.get("/get-all-project-details/locations", project.getProjectAllLocations)
 
       router.get("/get-all-project-details/price_ranges", project.getProjectPriceRanges)
-    
+
+      router.get("/get-all-project-details/apartments/:type", project.getProjectApartmentsDetails)
+
+      router.post("/get-all-project-details/search", project.getProjectApartmentsDetailsSearch)
+      
       app.use('/api/project', router);
     };

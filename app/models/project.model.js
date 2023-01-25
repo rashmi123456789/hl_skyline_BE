@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Project = sequelize.define("Project", {
+    const Project = sequelize.define("project", {
         project_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
@@ -181,7 +181,10 @@ module.exports = (sequelize, Sequelize) => {
       },
       faq_description: {
         type: Sequelize.STRING
-      }
+      },
+      status: {
+        type: Sequelize.INTEGER
+      },
 
     },{
       freezeTableName: true,
