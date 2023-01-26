@@ -266,6 +266,7 @@ return res;
 };
 
 
+<<<<<<< HEAD
 const getUnitDetailsWithID = function (pr_id) {
   
   const res = db.sequelize.query(`select project_unit.* from hl_skyline.project_unit 
@@ -278,6 +279,8 @@ const getUnitDetailsWithID = function (pr_id) {
 return res;
 };
 
+=======
+>>>>>>> 97e29e41c98524ee5186eb20dced15355f3674f6
 const getFAQDetails = function (name) {
   const res = db.sequelize.query(`select faq.* from hl_skyline.faq
   inner join project on project.project_id = faq.project_id
@@ -286,8 +289,7 @@ const getFAQDetails = function (name) {
 ).then(function(faqData) {
   return faqData;
 });
-return res;
-
+  return res;
 };
 
 const getFAQDetailsWithID = function (pr_id) {
@@ -350,13 +352,169 @@ exports.getProjectPriceRanges = function (req, res, next) {
   });
 };
 
+<<<<<<< HEAD
 
 exports.updateStatusByID = function (req, res, next) {
   const id = req.params.id;
+=======
+exports.updateStatus = function (req, res, next) {
+  const name = req.params.name;
+>>>>>>> 97e29e41c98524ee5186eb20dced15355f3674f6
   const p_status = req.params.status;
   db.sequelize.query(`update project set status= :project_status where project_id = :project_id`,
   { replacements: {project_status:p_status, project_id: id},type: db.sequelize.QueryTypes.UPDATE}
 ).then(function(updatedProjectData) {
   res.send("Project "+ id + " updated successfully.");
 });
+};
+
+exports.getProjectApartmentsDetails = function (req, res, next) {
+
+  const type = req.params.type;
+  db.sequelize.query(`select 
+	  project.project_details_location,
+    project.project_details_number_of_bedrooms, 
+    project.status,
+    project_unit.image,
+    project_unit.price
+    from project inner join project_unit ON 
+    project.project_id = project_unit.project_id AND project.project_details_property_type=:pro_type`,
+    { replacements: {pro_type:type}, type: db.sequelize.QueryTypes.SELECT}
+  ).then(function(data) {
+    res.send(data);
+  });
+};
+
+exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
+
+  const type = req.body.type;
+  const location = req.body.location;
+  const start_price = req.body.start_price;
+  const end_price = req.body.end_price;
+
+  // console.log(req.body)
+  // if (type === 'Residential') {
+      
+    if (location !== "" && end_price !== 0) {
+     
+        db.sequelize.query(`select 
+          project.project_details_location,
+          project.project_details_number_of_bedrooms, 
+          project.status,
+          project_unit.image,
+          project_unit.price
+          from project inner join project_unit ON 
+          project.project_id = project_unit.project_id 
+          AND project.project_details_property_type=:pro_type
+          AND project.project_details_location=:pro_location 
+          AND (project_unit.price between :s_price AND :e_price)`,
+        { replacements: {
+            pro_type:type, pro_location:location, s_price:start_price, e_price:end_price
+          }, type: db.sequelize.QueryTypes.SELECT}
+        ).then(function(data) {
+          res.send(data);
+        });
+    }
+    
+    if (location === "" && end_price !== 0) {
+           db.sequelize.query(`select 
+           project.project_details_location,
+           project.project_details_number_of_bedrooms, 
+           project.status,
+           project_unit.image,
+           project_unit.price
+           from project inner join project_unit ON 
+           project.project_id = project_unit.project_id 
+           AND project.project_details_property_type=:pro_type
+           AND (project_unit.price between :s_price AND :e_price)`,
+        { replacements: {pro_type:type, s_price:start_price, e_price:end_price}, type: db.sequelize.QueryTypes.SELECT}
+        ).then(function(data) {
+          res.send(data);
+        });
+    }
+
+    if (location !== "" && end_price === 0) {
+           db.sequelize.query(`select 
+           project.project_details_location,
+           project.project_details_number_of_bedrooms, 
+           project.status,
+           project_unit.image,
+           project_unit.price
+           from project inner join project_unit ON 
+           project.project_id = project_unit.project_id 
+           AND project.project_details_location=:pro_location 
+           AND project.project_details_property_type=:pro_type`,
+        { replacements: {pro_type:type, pro_location:location}, type: db.sequelize.QueryTypes.SELECT}
+        ).then(function(data) {
+          res.send(data);
+        });
+    }
+
+    if (location === "" && end_price === 0) {
+      res.send({message:'no data available'});
+    }
+  // }
+
+  // if (type === 'Apartment') {
+      
+  //     if (location !== "" && end_price !== 0) {
+     
+  //       db.sequelize.query(`select 
+  //         project.project_details_location,
+  //         project.project_details_number_of_bedrooms, 
+  //         project.status,
+  //         project_unit.image,
+  //         project_unit.price
+  //         from project inner join project_unit ON 
+  //         project.project_id = project_unit.project_id 
+  //         AND project.project_details_property_type=:pro_type
+  //         AND project.project_details_location=:pro_location 
+  //         AND (project_unit.price between :s_price AND :e_price)`,
+  //       { replacements: {
+  //           pro_type:type, pro_location:location, s_price:start_price, e_price:end_price
+  //         }, type: db.sequelize.QueryTypes.SELECT}
+  //       ).then(function(data) {
+  //         res.send(data);
+  //       });
+  //   }
+    
+  //   if (location === "" && end_price !== 0) {
+  //          db.sequelize.query(`select 
+  //          project.project_details_location,
+  //          project.project_details_number_of_bedrooms, 
+  //          project.status,
+  //          project_unit.image,
+  //          project_unit.price
+  //          from project inner join project_unit ON 
+  //          project.project_id = project_unit.project_id 
+  //          AND project.project_details_property_type=:pro_type
+  //          AND (project_unit.price between :s_price AND :e_price)`,
+  //       { replacements: {pro_type:type, s_price:start_price, e_price:end_price}, type: db.sequelize.QueryTypes.SELECT}
+  //       ).then(function(data) {
+  //         res.send(data);
+  //       });
+  //   }
+
+  //   if (location !== "" && end_price === 0) {
+  //          db.sequelize.query(`select 
+  //          project.project_details_location,
+  //          project.project_details_number_of_bedrooms, 
+  //          project.status,
+  //          project_unit.image,
+  //          project_unit.price
+  //          from project inner join project_unit ON 
+  //          project.project_id = project_unit.project_id 
+  //          AND project.project_details_location=:pro_location 
+  //          AND project.project_details_property_type=:pro_type`,
+  //       { replacements: {pro_type:type, pro_location:location}, type: db.sequelize.QueryTypes.SELECT}
+  //       ).then(function(data) {
+  //         res.send(data);
+  //       });
+  //   }
+
+  //   if (location === "" && end_price === 0) {
+  //     res.send({message:'no data available'});
+  //   }
+  // }
+  
 };

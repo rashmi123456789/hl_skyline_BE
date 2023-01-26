@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Tower = sequelize.define("Tower", {
+    const Tower = sequelize.define("tower", {
         tower_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
