@@ -19,9 +19,11 @@ module.exports = app => {
       // Delete a project with id
       router.delete("/:id" ,project.delete);
 
-      router.put("/change-project-status/:name/:status" ,project.updateStatus);
+      router.put("/change-project-status/:id/:status" ,project.updateStatusByID);
 
       router.get("/get-project-details/:name", project.getAllProjectDetails)
+
+      router.get("/get-project-details-with-id/:pr_id", project.getAllProjectDetailsWithID)
 
       router.get("/get-all-project-details/locations", project.getProjectAllLocations)
 

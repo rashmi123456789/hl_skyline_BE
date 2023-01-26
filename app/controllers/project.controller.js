@@ -236,6 +236,22 @@ const getProjectDetails = function (name) {
 return res;
 };
 
+const getProjectDetailsWithID = function (pr_id) {
+  
+  const res = db.sequelize.query(`select * from hl_skyline.project 
+  inner join ameneties on ameneties.project_id = project.project_id 
+  inner join architecture on architecture.project_id = project.project_id
+  inner join location on location.project_id = project.project_id
+  inner join property on property.project_id = project.project_id
+  inner join seo on seo.project_id = project.project_id
+  where project.project_id=:pr_id`,
+  { replacements: {pr_id: pr_id},type: db.sequelize.QueryTypes.SELECT}
+).then(function(projectData) {
+  return projectData;
+});
+return res;
+};
+
 
 const getUnitDetails = function (name) {
   
@@ -243,6 +259,19 @@ const getUnitDetails = function (name) {
   inner join project on project.project_id = project_unit.project_id
   where project.name=:project_name`,
   { replacements: {project_name: name},type: db.sequelize.QueryTypes.SELECT}
+).then(function(projectUnitData) {
+  return projectUnitData;
+});
+return res;
+};
+
+
+const getUnitDetailsWithID = function (pr_id) {
+  
+  const res = db.sequelize.query(`select project_unit.* from hl_skyline.project_unit 
+  inner join project on project.project_id = project_unit.project_id
+  where project.project_id=:pr_id`,
+  { replacements: {pr_id: pr_id},type: db.sequelize.QueryTypes.SELECT}
 ).then(function(projectUnitData) {
   return projectUnitData;
 });
@@ -261,12 +290,32 @@ return res;
 
 };
 
+const getFAQDetailsWithID = function (pr_id) {
+  const res = db.sequelize.query(`select faq.* from hl_skyline.faq
+  inner join project on project.project_id = faq.project_id
+  where project.project_id=:pr_id`,
+  { replacements: {pr_id: pr_id},type: db.sequelize.QueryTypes.SELECT}
+).then(function(faqData) {
+  return faqData;
+});
+return res;
+};
+
 exports.getAllProjectDetails = async function (req, res, next) {
   const name = req.params.name;
   let result = {}
   result.project_details = await getProjectDetails(name);
   result.project_units = await getUnitDetails(name);
   result.faq_details = await getFAQDetails(name);
+  res.send(result);
+};
+
+exports.getAllProjectDetailsWithID = async function (req, res, next) {
+  const id = req.params.pr_id;
+  let result = {}
+  result.project_details = await getProjectDetailsWithID(id);
+  result.project_units = await getUnitDetailsWithID(id);
+  result.faq_details = await getFAQDetailsWithID(id);
   res.send(result);
 };
 
@@ -302,12 +351,12 @@ exports.getProjectPriceRanges = function (req, res, next) {
 };
 
 
-exports.updateStatus = function (req, res, next) {
-  const name = req.params.name;
+exports.updateStatusByID = function (req, res, next) {
+  const id = req.params.id;
   const p_status = req.params.status;
-  db.sequelize.query(`update project set status= :project_status where name = :project_name`,
-  { replacements: {project_status:p_status, project_name: name},type: db.sequelize.QueryTypes.UPDATE}
+  db.sequelize.query(`update project set status= :project_status where project_id = :project_id`,
+  { replacements: {project_status:p_status, project_id: id},type: db.sequelize.QueryTypes.UPDATE}
 ).then(function(updatedProjectData) {
-  res.send("Project "+ name + " updated successfully.");
+  res.send("Project "+ id + " updated successfully.");
 });
 };

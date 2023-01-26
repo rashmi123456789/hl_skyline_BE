@@ -12,6 +12,9 @@ module.exports = app => {
     
       // Retrieve a single housing_unit with id
       router.get("/:id", housing_unit.findOne);
+
+      router.get("/get-housing-details-by-id/:id", housing_unit.getAllHousingUnitDetails);
+      router.get("/get-all-details/housing", housing_unit.getAllExistingHousingUnitDetails)
     
       // // Update a housing_unit with id
       router.put("/:id" ,housing_unit.update);

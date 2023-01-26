@@ -97,3 +97,29 @@ exports.delete = function (req, res, next) {
         });
       });
   };
+
+  exports.getAllApartmentUnitDetails = function (req, res, next) {
+    const id = req.params.id;
+  
+    db.sequelize.query(`select apartment_unit.*, tower.*, floor.* from apartment_unit inner join project on
+    apartment_unit.project_id= project.project_id
+    inner join tower on tower.project_id = project.project_id
+    inner join floor on tower.tower_id = floor.tower_id
+    where apartment_unit_id=:id`,
+    { replacements: {id: id},type: db.sequelize.QueryTypes.SELECT}
+  ).then(function(projectApartmentUnitData) {
+    res.send(projectApartmentUnitData);
+  });
+  };
+
+  exports.getAllExistingApartmentUnitDetails = function (req, res, next) {
+  
+    db.sequelize.query(`select apartment_unit.*, tower.*, floor.* from apartment_unit inner join project on
+    apartment_unit.project_id= project.project_id
+    inner join tower on tower.project_id = project.project_id
+    inner join floor on tower.tower_id = floor.tower_id;`,
+    {type: db.sequelize.QueryTypes.SELECT}
+  ).then(function(projectApartmentUnitData) {
+    res.send(projectApartmentUnitData);
+  });
+  };

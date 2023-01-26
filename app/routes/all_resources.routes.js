@@ -7,6 +7,8 @@ module.exports = app => {
       // Create a new project
       router.post("/", all_resources.create);
 
+      router.put("/", all_resources.update);
+
       app.use('/api/all_resources', router);
 };
  
