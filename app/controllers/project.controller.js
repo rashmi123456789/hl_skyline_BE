@@ -266,7 +266,6 @@ return res;
 };
 
 
-<<<<<<< HEAD
 const getUnitDetailsWithID = function (pr_id) {
   
   const res = db.sequelize.query(`select project_unit.* from hl_skyline.project_unit 
@@ -279,8 +278,6 @@ const getUnitDetailsWithID = function (pr_id) {
 return res;
 };
 
-=======
->>>>>>> 97e29e41c98524ee5186eb20dced15355f3674f6
 const getFAQDetails = function (name) {
   const res = db.sequelize.query(`select faq.* from hl_skyline.faq
   inner join project on project.project_id = faq.project_id
@@ -352,14 +349,8 @@ exports.getProjectPriceRanges = function (req, res, next) {
   });
 };
 
-<<<<<<< HEAD
-
 exports.updateStatusByID = function (req, res, next) {
   const id = req.params.id;
-=======
-exports.updateStatus = function (req, res, next) {
-  const name = req.params.name;
->>>>>>> 97e29e41c98524ee5186eb20dced15355f3674f6
   const p_status = req.params.status;
   db.sequelize.query(`update project set status= :project_status where project_id = :project_id`,
   { replacements: {project_status:p_status, project_id: id},type: db.sequelize.QueryTypes.UPDATE}
