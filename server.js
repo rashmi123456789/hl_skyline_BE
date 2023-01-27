@@ -33,6 +33,7 @@ require("./app/routes/tower.routes")(app);
 require("./app/routes/unit.routes")(app);
 require("./app/routes/zone.routes")(app);
 require("./app/routes/all_resources.routes")(app);
+require("./app/routes/contact.routes")(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

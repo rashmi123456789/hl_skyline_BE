@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Contact = sequelize.define("contact", {
+    const contact = sequelize.define("contact", {
         contact_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
@@ -8,7 +8,7 @@ module.exports = (sequelize, Sequelize) => {
       name: {
         type: Sequelize.STRING
       },
-      phone_no: {
+      phone: {
         type: Sequelize.STRING
       },
       email: {
@@ -17,11 +17,9 @@ module.exports = (sequelize, Sequelize) => {
       question: {
         type: Sequelize.STRING
       },
-      how_can_help: {
-        type: Sequelize.STRING
-      },
       project_name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        default:null
       }
     },
     {
@@ -31,5 +29,5 @@ module.exports = (sequelize, Sequelize) => {
       updatedAt: true,
     });
   
-    return Contact;
+    return contact;
   };
