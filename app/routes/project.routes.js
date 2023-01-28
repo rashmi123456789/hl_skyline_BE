@@ -23,6 +23,8 @@ module.exports = app => {
 
       router.get("/get-project-details/:name", project.getAllProjectDetails)
 
+      router.get("/get-project-details/by-type/:type", project.getProjectDetailsByType)
+
       router.get("/get-project-details-with-id/:pr_id", project.getAllProjectDetailsWithID)
 
       router.get("/get-all-project-details/locations", project.getProjectAllLocations)

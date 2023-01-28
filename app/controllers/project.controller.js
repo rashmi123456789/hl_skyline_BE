@@ -376,6 +376,16 @@ exports.getProjectApartmentsDetails = function (req, res, next) {
   });
 };
 
+exports.getProjectDetailsByType = function (req, res, next) {
+
+  const type = req.params.type;
+  db.sequelize.query(`select project_id, name, type, slider_1_img, status from project where type=:type;`,
+    { replacements: {type:type}, type: db.sequelize.QueryTypes.SELECT}
+  ).then(function(data) {
+    res.send(data);
+  });
+};
+
 exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
 
   const type = req.body.type;
