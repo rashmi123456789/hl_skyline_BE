@@ -38,7 +38,7 @@ db.faq = require("./faq.model.js")(sequelize, Sequelize);
 db.project_unit = require("./project_unit.model.js")(sequelize, Sequelize);
 db.seo = require("./seo.model.js")(sequelize, Sequelize);
 db.job = require("./Job.model.js")(sequelize, Sequelize);
-
+db.contact = require("./contact.model.js")(sequelize, Sequelize);
 // db.good.belongsTo(db.stock, { foreignKey: "code" });
 // db.stock.hasMany(db.good, { foreignKey: "code" });
 
