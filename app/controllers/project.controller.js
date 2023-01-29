@@ -318,6 +318,59 @@ exports.getAllProjectDetailsWithID = async function (req, res, next) {
   res.send(result);
 };
 
+//-----------
+
+const getProjectDetailsWithProjectUrl = function (project_url) {
+  
+  const res = db.sequelize.query(`select * from hl_skyline.project 
+  inner join ameneties on ameneties.project_id = project.project_id 
+  inner join architecture on architecture.project_id = project.project_id
+  inner join location on location.project_id = project.project_id
+  inner join property on property.project_id = project.project_id
+  inner join seo on seo.project_id = project.project_id
+  where project.project_url=:pr_url`,
+  { replacements: {pr_url: project_url},type: db.sequelize.QueryTypes.SELECT}
+).then(function(projectData) {
+  return projectData;
+});
+return res;
+};
+
+const getUnitDetailsWithProjectUrl = function (project_url) {
+  
+  const res = db.sequelize.query(`select project_unit.* from hl_skyline.project_unit 
+  inner join project on project.project_id = project_unit.project_id
+  where project.project_url=:pr_url`,
+  { replacements: {pr_url: project_url},type: db.sequelize.QueryTypes.SELECT}
+).then(function(projectUnitData) {
+  return projectUnitData;
+});
+return res;
+};
+
+const getFAQDetailsWithProjectUrl = function (project_url) {
+  const res = db.sequelize.query(`select faq.* from hl_skyline.faq
+  inner join project on project.project_id = faq.project_id
+  where project.project_url=:pr_url`,
+  { replacements: {pr_url: project_url},type: db.sequelize.QueryTypes.SELECT}
+).then(function(faqData) {
+  return faqData;
+});
+return res;
+};
+
+
+exports.getAllProjectDetailsWithProjectUrl = async function (req, res, next) {
+  const project_url = req.params.project_url;
+  let result = {}
+  result.project_details = await getProjectDetailsWithProjectUrl(project_url);
+  result.project_units = await getUnitDetailsWithProjectUrl(project_url);
+  result.faq_details = await getFAQDetailsWithProjectUrl(project_url);
+  res.send(result);
+};
+
+//----------------
+
 exports.getProjectAllLocations = function (req, res, next) {
   db.sequelize.query(`select distinct(project_details_location) from project`,
   {type: db.sequelize.QueryTypes.SELECT}

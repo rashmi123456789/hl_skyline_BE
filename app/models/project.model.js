@@ -183,7 +183,10 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING
       },
       status: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
+      },
+      project_url: {
+        type: Sequelize.STRING
       },
 
     },{
