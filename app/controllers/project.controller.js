@@ -422,9 +422,12 @@ exports.getProjectApartmentsDetails = function (req, res, next) {
     project.project_details_number_of_bedrooms, 
     project.status,
     project_unit.image,
-    project_unit.price
-    from project inner join project_unit ON 
-    project.project_id = project_unit.project_id AND project.project_details_property_type=:pro_type`,
+    project_unit.price,
+    seo.url
+    from project 
+    inner join project_unit ON project.project_id = project_unit.project_id 
+    inner join seo ON project.project_id = seo.project_id 
+    AND project.project_details_property_type=:pro_type`,
     { replacements: {pro_type:type}, type: db.sequelize.QueryTypes.SELECT}
   ).then(function(data) {
     res.send(data);
