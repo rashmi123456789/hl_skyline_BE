@@ -1,4 +1,0 @@
-create a database with name HOMELAND
-Populate (import) the DB with the sql file 
-Add your user name and password in db.config.js file
-To start the api run "node server.js"
