@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Property = sequelize.define("Property", {
+    const Property = sequelize.define("property", {
         property_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
@@ -83,6 +83,11 @@ module.exports = (sequelize, Sequelize) => {
       property_spec_slider_image_4_alt: {
         type: Sequelize.STRING
       }
+    },{
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
     });
   
     return Property;

@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Faq = sequelize.define("Faq", {
+    const Faq = sequelize.define("faq", {
         faq_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
@@ -14,6 +14,12 @@ module.exports = (sequelize, Sequelize) => {
       answer: {
         type: Sequelize.STRING
       }
+    },
+    {
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
     });
   
     return Faq;

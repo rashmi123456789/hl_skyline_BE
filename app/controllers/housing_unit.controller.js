@@ -25,7 +25,7 @@ exports.create = function (req, res, next) {
 
 // Retrieve all housing_unit from the database.
 exports.findAll = function (request, res, next) {
-    db.housing_unit.findAll({attributes: ['housing_unit','project_id']})
+    db.housing_unit.findAll({attributes: ['housing_unit_id','project_id']})
     .then(data => {
                 res.send(data);
               })
@@ -95,4 +95,28 @@ exports.delete = function (req, res, next) {
           message: "Could not delete housing_unit with id=" + id
         });
       });
+  };
+
+
+  exports.getAllHousingUnitDetails = function (req, res, next) {
+    const id = req.params.id;
+  
+    db.sequelize.query(`select housing_unit.*, zone.* from housing_unit inner join project on
+    housing_unit.project_id= project.project_id
+    inner join zone on zone.project_id = project.project_id
+    where housing_unit_id=:id`,
+    { replacements: {id: id},type: db.sequelize.QueryTypes.SELECT}
+  ).then(function(projectHousingUnitData) {
+    res.send(projectHousingUnitData);
+  });
+  };
+
+  exports.getAllExistingHousingUnitDetails = function (req, res, next) {
+    db.sequelize.query(`select housing_unit.*, zone.* from housing_unit inner join project on
+    housing_unit.project_id= project.project_id
+    inner join zone on zone.project_id = project.project_id`,
+    {type: db.sequelize.QueryTypes.SELECT}
+  ).then(function(projectHousingUnitData) {
+    res.send(projectHousingUnitData);
+  });
   };

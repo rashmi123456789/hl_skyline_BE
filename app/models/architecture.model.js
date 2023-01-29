@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Architecture = sequelize.define("Architecture", {
+    const Architecture = sequelize.define("architecture", {
         architecture_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
@@ -47,6 +47,12 @@ module.exports = (sequelize, Sequelize) => {
       architecture_image_horizontal_title: {
         type: Sequelize.STRING
       }
+    },
+    {
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
     });
   
     return Architecture;

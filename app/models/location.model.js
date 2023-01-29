@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Location = sequelize.define("Location", {
+    const Location = sequelize.define("location", {
         location_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
@@ -44,6 +44,12 @@ module.exports = (sequelize, Sequelize) => {
       location_amenity_4_details: {
         type: Sequelize.STRING
       }
+    },
+    {
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
     });
   
     return Location;

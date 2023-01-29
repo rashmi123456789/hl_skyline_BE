@@ -1,21 +1,25 @@
 module.exports = (sequelize, Sequelize) => {
-    const Job = sequelize.define("job", {
-        job_id: {
+    const contact = sequelize.define("contact", {
+        contact_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,
       },
-      qualification: {
+      name: {
         type: Sequelize.STRING
       },
-      location: {
+      phone: {
         type: Sequelize.STRING
       },
-      experience: {
+      email: {
         type: Sequelize.STRING
       },
-      description: {
+      question: {
         type: Sequelize.STRING
+      },
+      project_name: {
+        type: Sequelize.STRING,
+        default:null
       }
     },
     {
@@ -25,5 +29,5 @@ module.exports = (sequelize, Sequelize) => {
       updatedAt: true,
     });
   
-    return Job;
+    return contact;
   };

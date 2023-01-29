@@ -5,7 +5,7 @@ exports.create = function (req, res, next) {
     
       // Create a amnties
       const apartment_unit = {
-        apartment_unit_id:req.body.id,
+        apartment_unit_id:req.body.apartment_unit_id,
         project_id:req.body.project_id,
       };
     
@@ -96,4 +96,30 @@ exports.delete = function (req, res, next) {
           message: "Could not delete amenties with id=" + id
         });
       });
+  };
+
+  exports.getAllApartmentUnitDetails = function (req, res, next) {
+    const id = req.params.id;
+  
+    db.sequelize.query(`select apartment_unit.*, tower.*, floor.* from apartment_unit inner join project on
+    apartment_unit.project_id= project.project_id
+    inner join tower on tower.project_id = project.project_id
+    inner join floor on tower.tower_id = floor.tower_id
+    where apartment_unit_id=:id`,
+    { replacements: {id: id},type: db.sequelize.QueryTypes.SELECT}
+  ).then(function(projectApartmentUnitData) {
+    res.send(projectApartmentUnitData);
+  });
+  };
+
+  exports.getAllExistingApartmentUnitDetails = function (req, res, next) {
+  
+    db.sequelize.query(`select apartment_unit.*, tower.*, floor.* from apartment_unit inner join project on
+    apartment_unit.project_id= project.project_id
+    inner join tower on tower.project_id = project.project_id
+    inner join floor on tower.tower_id = floor.tower_id;`,
+    {type: db.sequelize.QueryTypes.SELECT}
+  ).then(function(projectApartmentUnitData) {
+    res.send(projectApartmentUnitData);
+  });
   };

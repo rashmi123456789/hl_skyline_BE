@@ -12,22 +12,30 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: true,limit: '50mb' }));
 
 const db = require("./app/models");
+
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Application is Running Well" });
 });
-require("./app/routes/customer.routes")(app);
-require("./app/routes/land.routes")(app);
-require("./app/routes/amenties.routes")(app);
-require("./app/routes/district.routes")(app);
-require("./app/routes/land_proposal.routes")(app);
-require("./app/routes/user_message.routes")(app);
-require("./app/routes/blog.routes")(app);
+
+require("./app/routes/ameneties.routes")(app);
+require("./app/routes/apartment_unit.routes")(app);
+require("./app/routes/architecture.routes")(app);
+require("./app/routes/faq.routes")(app);
+require("./app/routes/floor.routes")(app);
+require("./app/routes/housing_unit.routes")(app);
 require("./app/routes/job.routes")(app);
-require("./app/routes/user.routes")(app);
-require("./app/routes/fileupload.routes")(app);
-require("./app/routes/used_land_url.routes")(app);
-require("./app/routes/housing.routes")(app);
+require("./app/routes/location.routes")(app);
+require("./app/routes/project_unit.routes")(app);
+require("./app/routes/project.routes")(app);
+require("./app/routes/property.routes")(app);
+require("./app/routes/seo.routes")(app);
+require("./app/routes/tower.routes")(app);
+require("./app/routes/unit.routes")(app);
+require("./app/routes/zone.routes")(app);
+require("./app/routes/all_resources.routes")(app);
+require("./app/routes/contact.routes")(app);
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  //console.log(`Server is running on port ${PORT}.`);
+  console.log(`Server is running on port ${PORT}.`);
 });

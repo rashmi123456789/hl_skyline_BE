@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Unit = sequelize.define("Unit", {
+    const Unit = sequelize.define("unit", {
         unit_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
@@ -14,6 +14,11 @@ module.exports = (sequelize, Sequelize) => {
       number_of_units: {
         type: Sequelize.INTEGER
       }
+    },{
+      freezeTableName: true,
+      timestamps: true,
+      createdAt: true,
+      updatedAt: true,
     });
   
     return Unit;
