@@ -328,7 +328,7 @@ const getProjectDetailsWithProjectUrl = function (project_url) {
   inner join location on location.project_id = project.project_id
   inner join property on property.project_id = project.project_id
   inner join seo on seo.project_id = project.project_id
-  where project.project_url=:pr_url`,
+  where seo.url=:pr_url`,
   { replacements: {pr_url: project_url},type: db.sequelize.QueryTypes.SELECT}
 ).then(function(projectData) {
   return projectData;
@@ -340,7 +340,8 @@ const getUnitDetailsWithProjectUrl = function (project_url) {
   
   const res = db.sequelize.query(`select project_unit.* from hl_skyline.project_unit 
   inner join project on project.project_id = project_unit.project_id
-  where project.project_url=:pr_url`,
+  inner join seo on seo.project_id = project.project_id
+  where seo.url=:pr_url`,
   { replacements: {pr_url: project_url},type: db.sequelize.QueryTypes.SELECT}
 ).then(function(projectUnitData) {
   return projectUnitData;
@@ -351,7 +352,8 @@ return res;
 const getFAQDetailsWithProjectUrl = function (project_url) {
   const res = db.sequelize.query(`select faq.* from hl_skyline.faq
   inner join project on project.project_id = faq.project_id
-  where project.project_url=:pr_url`,
+  inner join seo on seo.project_id = project.project_id
+  where seo.url=:pr_url`,
   { replacements: {pr_url: project_url},type: db.sequelize.QueryTypes.SELECT}
 ).then(function(faqData) {
   return faqData;

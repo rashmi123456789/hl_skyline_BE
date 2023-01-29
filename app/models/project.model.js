@@ -185,9 +185,7 @@ module.exports = (sequelize, Sequelize) => {
       status: {
         type: Sequelize.STRING
       },
-      project_url: {
-        type: Sequelize.STRING
-      },
+    
 
     },{
       freezeTableName: true,
