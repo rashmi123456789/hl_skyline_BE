@@ -37,6 +37,8 @@ module.exports = app => {
       router.get("/get-all-project-details/apartments/:type", project.getProjectApartmentsDetails)
 
       router.post("/get-all-project-details/search", project.getProjectApartmentsDetailsSearch)
+
+      router.get("/get-all-project-details/projects_posts", project.getProjectApartmentsCardDetails)
       
       app.use('/api/project', router);
     };
