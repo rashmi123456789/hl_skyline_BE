@@ -457,13 +457,20 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
     if (location !== "" && end_price !== 0) {
      
         db.sequelize.query(`select 
-          project.project_details_location,
-          project.project_details_number_of_bedrooms, 
-          project.status,
-          project_unit.image,
-          project_unit.price
-          from project inner join project_unit ON 
-          project.project_id = project_unit.project_id 
+        Project.type,
+        seo.url, 
+        project.slider_1_img,
+        t.min_price, 
+        project.name,
+        project.project_details_property_type, 
+        project.project_details_location,
+        project.status, 
+        t.project_id 
+        from Project 
+        inner join (SELECT project_id, Min(Project_unit.price) as min_price
+        from Project_unit group by project_id) as t
+        on t.project_id = project.project_id
+        inner join seo on seo.project_id = project.project_id 
           AND project.project_details_property_type=:pro_type
           AND project.project_details_location=:pro_location 
           AND (project_unit.price between :s_price AND :e_price)`,
@@ -477,13 +484,20 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
     
     if (location === "" && end_price !== 0) {
            db.sequelize.query(`select 
+           project.type,
+           seo.url, 
+           project.slider_1_img,
+           t.min_price, 
+           project.name,
+           project.project_details_property_type, 
            project.project_details_location,
-           project.project_details_number_of_bedrooms, 
-           project.status,
-           project_unit.image,
-           project_unit.price
-           from project inner join project_unit ON 
-           project.project_id = project_unit.project_id 
+           project.status, 
+           t.project_id 
+           from Project 
+           inner join (SELECT project_id, Min(Project_unit.price) as min_price
+           from Project_unit group by project_id) as t
+           on t.project_id = project.project_id
+           inner join seo on seo.project_id = project.project_id 
            AND project.project_details_property_type=:pro_type
            AND (project_unit.price between :s_price AND :e_price)`,
         { replacements: {pro_type:type, s_price:start_price, e_price:end_price}, type: db.sequelize.QueryTypes.SELECT}
@@ -494,13 +508,20 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
 
     if (location !== "" && end_price === 0) {
            db.sequelize.query(`select 
+           Project.type,
+           seo.url, 
+           project.slider_1_img,
+           t.min_price, 
+           project.name,
+           project.project_details_property_type, 
            project.project_details_location,
-           project.project_details_number_of_bedrooms, 
-           project.status,
-           project_unit.image,
-           project_unit.price
-           from project inner join project_unit ON 
-           project.project_id = project_unit.project_id 
+           project.status, 
+           t.project_id 
+           from Project 
+           inner join (SELECT project_id, Min(Project_unit.price) as min_price
+           from Project_unit group by project_id) as t
+           on t.project_id = project.project_id
+           inner join seo on seo.project_id = project.project_id 
            AND project.project_details_location=:pro_location 
            AND project.project_details_property_type=:pro_type`,
         { replacements: {pro_type:type, pro_location:location}, type: db.sequelize.QueryTypes.SELECT}
@@ -510,70 +531,52 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
     }
 
     if (location === "" && end_price === 0) {
-      res.send({message:'no data available'});
+      db.sequelize.query(`select 
+      Project.type,
+      seo.url, 
+      project.slider_1_img,
+      t.min_price, 
+      project.name,
+      project.project_details_property_type, 
+      project.project_details_location,
+      project.status, 
+      t.project_id 
+      from Project 
+      inner join (SELECT project_id, Min(Project_unit.price) as min_price
+      from Project_unit group by project_id) as t
+      on t.project_id = project.project_id
+      inner join seo on seo.project_id = project.project_id 
+      AND project.project_details_property_type=:pro_type`,
+   { replacements: {pro_type:type}, type: db.sequelize.QueryTypes.SELECT}
+   ).then(function(data) {
+      res.send(data);
+   });
     }
   // }
 
-  // if (type === 'Apartment') {
-      
-  //     if (location !== "" && end_price !== 0) {
-     
-  //       db.sequelize.query(`select 
-  //         project.project_details_location,
-  //         project.project_details_number_of_bedrooms, 
-  //         project.status,
-  //         project_unit.image,
-  //         project_unit.price
-  //         from project inner join project_unit ON 
-  //         project.project_id = project_unit.project_id 
-  //         AND project.project_details_property_type=:pro_type
-  //         AND project.project_details_location=:pro_location 
-  //         AND (project_unit.price between :s_price AND :e_price)`,
-  //       { replacements: {
-  //           pro_type:type, pro_location:location, s_price:start_price, e_price:end_price
-  //         }, type: db.sequelize.QueryTypes.SELECT}
-  //       ).then(function(data) {
-  //         res.send(data);
-  //       });
-  //   }
-    
-  //   if (location === "" && end_price !== 0) {
-  //          db.sequelize.query(`select 
-  //          project.project_details_location,
-  //          project.project_details_number_of_bedrooms, 
-  //          project.status,
-  //          project_unit.image,
-  //          project_unit.price
-  //          from project inner join project_unit ON 
-  //          project.project_id = project_unit.project_id 
-  //          AND project.project_details_property_type=:pro_type
-  //          AND (project_unit.price between :s_price AND :e_price)`,
-  //       { replacements: {pro_type:type, s_price:start_price, e_price:end_price}, type: db.sequelize.QueryTypes.SELECT}
-  //       ).then(function(data) {
-  //         res.send(data);
-  //       });
-  //   }
-
-  //   if (location !== "" && end_price === 0) {
-  //          db.sequelize.query(`select 
-  //          project.project_details_location,
-  //          project.project_details_number_of_bedrooms, 
-  //          project.status,
-  //          project_unit.image,
-  //          project_unit.price
-  //          from project inner join project_unit ON 
-  //          project.project_id = project_unit.project_id 
-  //          AND project.project_details_location=:pro_location 
-  //          AND project.project_details_property_type=:pro_type`,
-  //       { replacements: {pro_type:type, pro_location:location}, type: db.sequelize.QueryTypes.SELECT}
-  //       ).then(function(data) {
-  //         res.send(data);
-  //       });
-  //   }
-
-  //   if (location === "" && end_price === 0) {
-  //     res.send({message:'no data available'});
-  //   }
-  // }
   
 };
+
+exports.getProjectApartmentsCardDetails = function (req, res, next) {
+    db.sequelize.query(`Select 
+    Project.type, 
+    seo.url, 
+    project.slider_1_img,
+    t.min_price,
+     project.name,
+      project.project_details_property_type,
+      project.project_details_location,
+      project.status,
+      t.project_id from Project
+     inner join
+    (SELECT project_id, Min(Project_unit.price) as min_price
+     from Project_unit group by project_id) as t
+    on t.project_id = project.project_id
+    inner join seo on seo.project_id = project.project_id AND project.status='trending'`,
+   { replacements: {pro_status:'trending'}, type: db.sequelize.QueryTypes.SELECT}
+   ).then(function(data) {
+      res.send(data)
+   });
+}
+
+
