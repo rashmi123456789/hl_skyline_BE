@@ -457,7 +457,7 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
     if (location !== "" && end_price !== 0) {
      
         db.sequelize.query(`select 
-        Project.type,
+        project.type,
         seo.url, 
         project.slider_1_img,
         t.min_price, 
@@ -466,19 +466,22 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
         project.project_details_location,
         project.status, 
         t.project_id 
-        from Project 
-        inner join (SELECT project_id, Min(Project_unit.price) as min_price
-        from Project_unit group by project_id) as t
+        from project 
+        inner join (SELECT project_id, Min(project_unit.price) as min_price
+        from project_unit group by project_id) as t
         on t.project_id = project.project_id
         inner join seo on seo.project_id = project.project_id 
-          AND project.project_details_property_type=:pro_type
-          AND project.project_details_location=:pro_location 
-          AND (project_unit.price between :s_price AND :e_price)`,
+        AND project.project_details_property_type=:pro_type
+        AND project.project_details_location=:pro_location 
+        AND (t.min_price between :s_price AND :e_price)`,
         { replacements: {
             pro_type:type, pro_location:location, s_price:start_price, e_price:end_price
           }, type: db.sequelize.QueryTypes.SELECT}
         ).then(function(data) {
           res.send(data);
+        })
+        .catch(function(err) {
+          console.log(err.message)
         });
     }
     
@@ -493,13 +496,13 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
            project.project_details_location,
            project.status, 
            t.project_id 
-           from Project 
-           inner join (SELECT project_id, Min(Project_unit.price) as min_price
-           from Project_unit group by project_id) as t
+           from project 
+           inner join (SELECT project_id, Min(project_unit.price) as min_price
+           from project_unit group by project_id) as t
            on t.project_id = project.project_id
            inner join seo on seo.project_id = project.project_id 
            AND project.project_details_property_type=:pro_type
-           AND (project_unit.price between :s_price AND :e_price)`,
+           AND (t.min_price between :s_price AND :e_price)`,
         { replacements: {pro_type:type, s_price:start_price, e_price:end_price}, type: db.sequelize.QueryTypes.SELECT}
         ).then(function(data) {
           res.send(data);
@@ -508,7 +511,7 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
 
     if (location !== "" && end_price === 0) {
            db.sequelize.query(`select 
-           Project.type,
+           project.type,
            seo.url, 
            project.slider_1_img,
            t.min_price, 
@@ -517,9 +520,9 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
            project.project_details_location,
            project.status, 
            t.project_id 
-           from Project 
-           inner join (SELECT project_id, Min(Project_unit.price) as min_price
-           from Project_unit group by project_id) as t
+           from project 
+           inner join (SELECT project_id, Min(project_unit.price) as min_price
+           from project_unit group by project_id) as t
            on t.project_id = project.project_id
            inner join seo on seo.project_id = project.project_id 
            AND project.project_details_location=:pro_location 
@@ -532,7 +535,7 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
 
     if (location === "" && end_price === 0) {
       db.sequelize.query(`select 
-      Project.type,
+      project.type,
       seo.url, 
       project.slider_1_img,
       t.min_price, 
@@ -541,9 +544,9 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
       project.project_details_location,
       project.status, 
       t.project_id 
-      from Project 
-      inner join (SELECT project_id, Min(Project_unit.price) as min_price
-      from Project_unit group by project_id) as t
+      from project 
+      inner join (SELECT project_id, Min(project_unit.price) as min_price
+      from project_unit group by project_id) as t
       on t.project_id = project.project_id
       inner join seo on seo.project_id = project.project_id 
       AND project.project_details_property_type=:pro_type`,
@@ -559,18 +562,18 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
 
 exports.getProjectApartmentsCardDetails = function (req, res, next) {
     db.sequelize.query(`Select 
-    Project.type, 
+    project.type, 
     seo.url, 
     project.slider_1_img,
     t.min_price,
-     project.name,
-      project.project_details_property_type,
-      project.project_details_location,
-      project.status,
-      t.project_id from Project
-     inner join
-    (SELECT project_id, Min(Project_unit.price) as min_price
-     from Project_unit group by project_id) as t
+    project.name,
+    project.project_details_property_type,
+    project.project_details_location,
+    project.status,
+    t.project_id from project
+    inner join
+    (SELECT project_id, Min(project_unit.price) as min_price
+     from project_unit group by project_id) as t
     on t.project_id = project.project_id
     inner join seo on seo.project_id = project.project_id AND project.status='trending'`,
    { replacements: {pro_status:'trending'}, type: db.sequelize.QueryTypes.SELECT}
