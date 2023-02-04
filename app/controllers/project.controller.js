@@ -453,27 +453,35 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
 
   // console.log(req.body)
   // if (type === 'Residential') {
-      
+   
     if (location !== "" && end_price !== 0) {
      
-        db.sequelize.query(`select 
+        db.sequelize.query(`select
         project.type,
-        seo.url, 
+        seo.url,
         project.slider_1_img,
-        t.min_price, 
+        t.min_price,
         project.name,
-        project.project_details_property_type, 
+        project.project_details_property_type,
         project.project_details_location,
-        project.status, 
-        t.project_id 
-        from project 
+        project.status,
+        t.project_id
+        from project
         inner join (SELECT project_id, Min(project_unit.price) as min_price
         from project_unit group by project_id) as t
         on t.project_id = project.project_id
-        inner join seo on seo.project_id = project.project_id 
+        inner join seo on seo.project_id = project.project_id
         AND project.project_details_property_type=:pro_type
         AND project.project_details_location=:pro_location 
-        AND (t.min_price between :s_price AND :e_price)`,
+        AND (t.min_price between :s_price AND :e_price)
+        ORDER BY
+      CASE
+          WHEN project.status = 'trending' THEN 1
+          WHEN project.status = 'available' THEN 2
+          WHEN project.status = 'general' THEN 3
+          ELSE 4
+      END,
+      project.createdAt DESC;`,
         { replacements: {
             pro_type:type, pro_location:location, s_price:start_price, e_price:end_price
           }, type: db.sequelize.QueryTypes.SELECT}
@@ -486,47 +494,63 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
     }
     
     if (location === "" && end_price !== 0) {
-           db.sequelize.query(`select 
+           db.sequelize.query(`select
            project.type,
-           seo.url, 
+           seo.url,
            project.slider_1_img,
-           t.min_price, 
+           t.min_price,
            project.name,
-           project.project_details_property_type, 
+           project.project_details_property_type,
            project.project_details_location,
-           project.status, 
-           t.project_id 
-           from project 
+           project.status,
+           t.project_id
+           from project
            inner join (SELECT project_id, Min(project_unit.price) as min_price
            from project_unit group by project_id) as t
            on t.project_id = project.project_id
-           inner join seo on seo.project_id = project.project_id 
+           inner join seo on seo.project_id = project.project_id
            AND project.project_details_property_type=:pro_type
-           AND (t.min_price between :s_price AND :e_price)`,
+           AND (t.min_price between :s_price AND :e_price)
+           ORDER BY
+         CASE
+             WHEN project.status = 'trending' THEN 1
+             WHEN project.status = 'available' THEN 2
+             WHEN project.status = 'general' THEN 3
+             ELSE 4
+         END,
+         project.createdAt DESC;`,
         { replacements: {pro_type:type, s_price:start_price, e_price:end_price}, type: db.sequelize.QueryTypes.SELECT}
         ).then(function(data) {
           res.send(data);
         });
     }
-
+    
     if (location !== "" && end_price === 0) {
-           db.sequelize.query(`select 
+           db.sequelize.query(`select
            project.type,
-           seo.url, 
+           seo.url,
            project.slider_1_img,
-           t.min_price, 
+           t.min_price,
            project.name,
-           project.project_details_property_type, 
+           project.project_details_property_type,
            project.project_details_location,
-           project.status, 
-           t.project_id 
-           from project 
+           project.status,
+           t.project_id
+           from project
            inner join (SELECT project_id, Min(project_unit.price) as min_price
            from project_unit group by project_id) as t
            on t.project_id = project.project_id
-           inner join seo on seo.project_id = project.project_id 
+           inner join seo on seo.project_id = project.project_id
+           AND project.project_details_property_type=:pro_type
            AND project.project_details_location=:pro_location 
-           AND project.project_details_property_type=:pro_type`,
+           ORDER BY
+         CASE
+             WHEN project.status = 'trending' THEN 1
+             WHEN project.status = 'available' THEN 2
+             WHEN project.status = 'general' THEN 3
+             ELSE 4
+         END,
+         project.createdAt DESC;`,
         { replacements: {pro_type:type, pro_location:location}, type: db.sequelize.QueryTypes.SELECT}
         ).then(function(data) {
           res.send(data);
@@ -534,22 +558,30 @@ exports.getProjectApartmentsDetailsSearch = function (req, res, next) {
     }
 
     if (location === "" && end_price === 0) {
-      db.sequelize.query(`select 
+      db.sequelize.query(`select
       project.type,
-      seo.url, 
+      seo.url,
       project.slider_1_img,
-      t.min_price, 
+      t.min_price,
       project.name,
-      project.project_details_property_type, 
+      project.project_details_property_type,
       project.project_details_location,
-      project.status, 
-      t.project_id 
-      from project 
+      project.status,
+      t.project_id
+      from project
       inner join (SELECT project_id, Min(project_unit.price) as min_price
       from project_unit group by project_id) as t
       on t.project_id = project.project_id
-      inner join seo on seo.project_id = project.project_id 
-      AND project.project_details_property_type=:pro_type`,
+      inner join seo on seo.project_id = project.project_id
+      AND project.project_details_property_type=:pro_type
+      ORDER BY
+    CASE
+        WHEN project.status = 'trending' THEN 1
+        WHEN project.status = 'available' THEN 2
+        WHEN project.status = 'general' THEN 3
+        ELSE 4
+    END,
+    project.createdAt DESC`,
    { replacements: {pro_type:type}, type: db.sequelize.QueryTypes.SELECT}
    ).then(function(data) {
       res.send(data);
