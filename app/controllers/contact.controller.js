@@ -7,10 +7,11 @@ exports.create = function (req, res, next) {
       const contact = {
         contact_id:req.body.id,
         name:req.body.name,
-        phone:req.body.question,
-        question:req.body.answer,
+        phone:req.body.phone,
+        question:req.body.question,
         email:req.body.email,
-        project_name:req.body.project_name
+        project_name:req.body.project_name,
+        status:'new'
       };
     
       // Save Contact in the database
@@ -29,7 +30,10 @@ exports.create = function (req, res, next) {
 
 // Retrieve all Contact from the database.
 exports.findAll = function (request, res, next) {
-    db.contact.findAll({attributes: ['contact_id','name','email','phone','project_name']})
+    db.contact.findAll({
+      attributes: ['contact_id','name','email','phone','project_name', 'question', 'status', 'createdAt'],
+      order: [['createdAt', 'DESC']]
+    })
     .then(data => {
                 res.send(data);
               })
@@ -58,10 +62,10 @@ exports.findOne = function (req, res, next) {
 
 // Update a Contact by the id in the request
 exports.update = function (req, res, next) {
-    const id = req.params.id;
   
+    const id = req.params.id;
     db.contact.update(req.body, {
-      where: { faq_id: id }
+      where: { contact_id: id }
     })
       .then(
           res.send({

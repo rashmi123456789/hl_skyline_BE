@@ -1,33 +1,28 @@
 module.exports = (sequelize, Sequelize) => {
-    const Job = sequelize.define("job", {
-        job_id: {
+    const User = sequelize.define("user", {
+        user_id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,
       },
-      qualification: {
+      username: {
         type: Sequelize.STRING
       },
-      location: {
+      password: {
         type: Sequelize.STRING
       },
-      experience: {
+      role: {
         type: Sequelize.STRING
       },
-      description: {
-        type: Sequelize.STRING
-      },
-      title: {
-        type: Sequelize.STRING
+      status: {
+        type: Sequelize.INTEGER
       }
-    },
-
-    {
+    },{
       freezeTableName: true,
       timestamps: true,
       createdAt: true,
       updatedAt: true,
     });
   
-    return Job;
+    return User;
   };

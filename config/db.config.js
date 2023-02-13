@@ -1,8 +1,9 @@
 module.exports = {
     HOST: "localhost",
     // PASSWORD: "",
-    USER: "nodeapp_user",
-    PASSWORD:"Wattakka@123",
+    USER: "root",
+    // PASSWORD:"Wattakka@123",
+    PASSWORD:"WMgim@96",
     DB: "hl_skyline",
     dialect: "mysql",
     pool: {

@@ -6,6 +6,7 @@ exports.create = function (req, res, next) {
       // Create a amnties
       const job = {
         job_id:req.body.id,
+        title:req.body.title,
         qualification:req.body.qualification,
         location:req.body.location,
         experience:req.body.experience,
@@ -28,7 +29,7 @@ exports.create = function (req, res, next) {
 
 // Retrieve all jobs from the database.
 exports.findAll = function (request, res, next) {
-    db.job.findAll({attributes: ['job_id','qualification','location','experience','description']})
+    db.job.findAll({attributes: ['job_id','title','qualification','location','experience','description']})
     .then(data => {
                 res.send(data);
               })
@@ -43,9 +44,10 @@ exports.findAll = function (request, res, next) {
 // Find a single jobs with an id
 exports.findOne = function (req, res, next) {
     const id = req.params.id;
-  
-    db.job.findByPk(id)
+    console.log(id)
+    db.job.findAll({where: {job_id: id}})
       .then(data => {
+        console.log(data)
         res.send(data);
       })
       .catch(err => {
