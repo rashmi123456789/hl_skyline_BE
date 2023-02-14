@@ -1,6 +1,7 @@
 const db = require("../models");
 const bcrypt = require('bcrypt');
-
+const { validateToken } = require('../middleware/validateToken')
+ 
 
 // Create and Save a new User
 exports.create = function (req, res, next) {
@@ -50,9 +51,42 @@ exports.create = function (req, res, next) {
   
 };
 
+// Retrieve current User from the database.
+exports.findCurrentUser = function (req, res, next) {
+
+  try {
+    console.log(req)
+    const userId = validateToken(req, res)
+    console.log(userId)
+
+    if (userId) {
+
+      db.user.findAll({where:{user_id:userId}, attributes: ['user_id','username','role', 'createdAt']})
+      .then(data => {
+                  res.send(data);
+          })
+          .catch(err => {
+                  // console.log(err)
+                  res.status(500).send({
+                    message:
+                      err.message || "Some error occurred while retrieving zone."
+                  });
+                });
+  
+  
+    }
+    
+  
+   
+  } catch (err) {
+
+  }
+ 
+};
+
 // Retrieve all User from the database.
 exports.findAll = function (request, res, next) {
-    db.zone.findAll({attributes: ['zone_id','project_id','name']})
+    db.user.findAll({attributes: ['zone_id','project_id','name']})
     .then(data => {
                 res.send(data);
               })
@@ -64,6 +98,8 @@ exports.findAll = function (request, res, next) {
                 });
               });
 };
+
+
 
 // Find a single User with an id
 exports.findOne = function (req, res, next) {

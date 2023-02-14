@@ -20,6 +20,9 @@ module.exports = (sequelize, Sequelize) => {
       project_name: {
         type: Sequelize.STRING,
         default:null
+      },
+      status: {
+        type: Sequelize.STRING,
       }
     },
     {

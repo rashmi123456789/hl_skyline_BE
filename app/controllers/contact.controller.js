@@ -69,7 +69,7 @@ exports.update = function (req, res, next) {
     })
       .then(
           res.send({
-            message: "faq was updated successfully."
+            message: "contact was updated successfully."
           })
       )
       .catch(err => {
