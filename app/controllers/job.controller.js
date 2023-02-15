@@ -29,7 +29,7 @@ exports.create = function (req, res, next) {
 
 // Retrieve all jobs from the database.
 exports.findAll = function (request, res, next) {
-    db.job.findAll({attributes: ['job_id','title','qualification','location','experience','description']})
+    db.job.findAll({attributes: ['job_id','title','qualification','location','experience','description', 'createdAt']})
     .then(data => {
                 res.send(data);
               })
