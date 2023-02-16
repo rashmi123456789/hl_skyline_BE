@@ -37,14 +37,14 @@ async function passwordAuth(req, res) {
                         role:savedPw.role
                     };
             
-                    const accessToken = Jwt.sign(_user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10h" });
+                    const accessToken = Jwt.sign(_user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "5h" });
                     const refreshToken = Jwt.sign(_user, process.env.REFRESH_TOKEN_SECRET);
                     res.send({
                         success:true, 
                         payload :{
                             token_type:'bearer', 
                             access_token:accessToken, 
-                            expires_in: '10h', 
+                            expires_in: '5h', 
                             refresh_token:refreshToken,
                             user:_user
                         }
