@@ -300,6 +300,8 @@ const getFAQDetailsWithID = function (pr_id) {
 return res;
 };
 
+
+
 exports.getAllProjectDetails = async function (req, res, next) {
   const name = req.params.name;
   let result = {}
@@ -320,7 +322,8 @@ exports.getAllProjectDetailsWithID = async function (req, res, next) {
 
 //-----------
 
-const getProjectDetailsWithProjectUrl = function (project_url) {
+const getProjectDetailsWithProjectUrl = function (project_url, project_type) {
+
   
   const res = db.sequelize.query(`select * from hl_skyline.project 
   inner join ameneties on ameneties.project_id = project.project_id 
@@ -328,33 +331,33 @@ const getProjectDetailsWithProjectUrl = function (project_url) {
   inner join location on location.project_id = project.project_id
   inner join property on property.project_id = project.project_id
   inner join seo on seo.project_id = project.project_id
-  where seo.url=:pr_url`,
-  { replacements: {pr_url: project_url},type: db.sequelize.QueryTypes.SELECT}
+  where seo.url=:pr_url AND project.project_details_property_type=:pro_type`,
+  { replacements: {pr_url: project_url, pro_type:project_type},type: db.sequelize.QueryTypes.SELECT}
 ).then(function(projectData) {
   return projectData;
 });
 return res;
 };
 
-const getUnitDetailsWithProjectUrl = function (project_url) {
+const getUnitDetailsWithProjectUrl = function (project_url, project_type) {
   
   const res = db.sequelize.query(`select project_unit.* from hl_skyline.project_unit 
   inner join project on project.project_id = project_unit.project_id
   inner join seo on seo.project_id = project.project_id
-  where seo.url=:pr_url`,
-  { replacements: {pr_url: project_url},type: db.sequelize.QueryTypes.SELECT}
+  where seo.url=:pr_url AND project.project_details_property_type=:pro_type`,
+  { replacements: {pr_url: project_url, pro_type:project_type},type: db.sequelize.QueryTypes.SELECT}
 ).then(function(projectUnitData) {
   return projectUnitData;
 });
 return res;
 };
 
-const getFAQDetailsWithProjectUrl = function (project_url) {
+const getFAQDetailsWithProjectUrl = function (project_url, project_type) {
   const res = db.sequelize.query(`select faq.* from hl_skyline.faq
   inner join project on project.project_id = faq.project_id
   inner join seo on seo.project_id = project.project_id
-  where seo.url=:pr_url`,
-  { replacements: {pr_url: project_url},type: db.sequelize.QueryTypes.SELECT}
+  where seo.url=:pr_url AND project.project_details_property_type=:pro_type`,
+  { replacements: {pr_url: project_url, pro_type:project_type},type: db.sequelize.QueryTypes.SELECT}
 ).then(function(faqData) {
   return faqData;
 });
@@ -364,10 +367,12 @@ return res;
 
 exports.getAllProjectDetailsWithProjectUrl = async function (req, res, next) {
   const project_url = req.params.project_url;
+  const project_type = req.params.type;
+
   let result = {}
-  result.project_details = await getProjectDetailsWithProjectUrl(project_url);
-  result.project_units = await getUnitDetailsWithProjectUrl(project_url);
-  result.faq_details = await getFAQDetailsWithProjectUrl(project_url);
+  result.project_details = await getProjectDetailsWithProjectUrl(project_url, project_type);
+  result.project_units = await getUnitDetailsWithProjectUrl(project_url, project_type);
+  result.faq_details = await getFAQDetailsWithProjectUrl(project_url, project_type);
   res.send(result);
 };
 
@@ -613,5 +618,22 @@ exports.getProjectApartmentsCardDetails = function (req, res, next) {
       res.send(data)
    });
 }
+
+exports.getaAllProjectSubUrls = function (req, res, next) {
+
+  db.sequelize.query(`select 
+	  project.project_id,
+    project.type,
+    seo.seo_id,
+    seo.url
+    from project 
+    inner join seo ON project.project_id = seo.project_id`,
+    { type: db.sequelize.QueryTypes.SELECT}
+  ).then(function(data) {
+    
+    res.send(data);
+  });
+};
+
 
 

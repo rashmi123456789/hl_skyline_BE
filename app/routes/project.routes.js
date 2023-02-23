@@ -3,7 +3,9 @@ module.exports = app => {
       const project = require("../controllers/project.controller.js");
     
       var router = require("express").Router();
-    
+
+      router.get("/get-project-urls", project.getaAllProjectSubUrls)
+     
       // Create a new project
       router.post("/", project.create);
     
@@ -27,7 +29,7 @@ module.exports = app => {
 
       router.get("/get-project-details-with-id/:pr_id", project.getAllProjectDetailsWithID)
 
-      router.get("/get-project-details-with-url/:project_url", project.getAllProjectDetailsWithProjectUrl)
+      router.get("/get-project-details-with-url/:project_url/:type", project.getAllProjectDetailsWithProjectUrl)
 
       router.get("/get-all-project-details/locations", project.getProjectAllLocations)
 
@@ -38,6 +40,6 @@ module.exports = app => {
       router.post("/get-all-project-details/search", project.getProjectApartmentsDetailsSearch)
 
       router.get("/get-all-project-details/projects_posts", project.getProjectApartmentsCardDetails)
-      
+  
       app.use('/api/project', router);
     };
